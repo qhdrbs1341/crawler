@@ -1,0 +1,28 @@
+{
+  "development": {
+    "username": "jobstates",
+    "password": "jobstates1234",
+    "database": "jobstates",
+    "host": "jobstates.ch4quylsesps.ap-northeast-2.rds.amazonaws.com",
+    "dialect": "mysql",
+    "operatorsAliases": "false"
+  },
+  "test": {
+    "username": "root",
+    "password": "mydiary",
+    "database": "mydiary",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "timezone": "+09:00",
+    "operatorsAliases": "false"
+  },
+  "production": {
+    "username": "root",
+    "password": "mydiary",
+    "database": "mydiary",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "timezone": "+09:00",
+    "operatorsAliases": "false"
+  }
+}

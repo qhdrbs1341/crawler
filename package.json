@@ -1,0 +1,38 @@
+{
+  "name": "collect",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "author": "codestates",
+  "license": "MIT",
+  "dependencies": {
+    "ajax": "0.0.4",
+    "aws-sdk": "^2.362.0",
+    "axios": "^0.18.0",
+    "cheerio": "^1.0.0-rc.2",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.5",
+    "crawler": "^1.2.0",
+    "dotenv": "^6.1.0",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "iconv": "^2.3.1",
+    "morgan": "^1.9.1",
+    "mysql2": "^1.6.1",
+    "node-cron": "^2.0.3",
+    "pm2": "^3.2.2",
+    "puppeteer": "^1.10.0",
+    "redis": "^2.8.0",
+    "request": "^2.88.0",
+    "sequelize": "^4.41.0",
+    "spa-crawler": "^2.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.6"
+  }
+}
