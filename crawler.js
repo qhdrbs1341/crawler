@@ -38,7 +38,7 @@ console.log(err)
 //기업 크롤러
 async function companyCrawler(keyword,pageNum){
   try{
-  const browser = await puppeteer.launch({headless:false});
+  const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto('https://www.rocketpunch.com/jobs?keywords='+keyword+'&page='+pageNum);
   await timeout(10000);
@@ -196,7 +196,7 @@ async function hireCrawler(url){
   })
 
   try{
-    const browser = await puppeteer.launch({headless:false});
+    const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(url);
     await timeout(6000);

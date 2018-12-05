@@ -65,7 +65,7 @@ module.exports = { news : async () => {
         )
     )
     let url = 'https://www.google.co.kr/search?q='+favoriteTech[index].title+'&tbm=nws';
-    const browser = await puppeteer.launch({headless:false});
+    const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(url);
     await timeout(10000);
