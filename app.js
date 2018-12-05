@@ -40,11 +40,11 @@ const startCrawler = async () => {
 
 //startCrawler();
 
-cron.schedule('30 12 * * *',()=>{
+cron.schedule('00 1 * * *',()=>{
   startCrawler();
 })
 
-cron.schedule('0 8 * * *',()=>{
+cron.schedule('30 1 * * *',()=>{
   news();
 })
 
