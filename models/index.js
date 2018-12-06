@@ -21,7 +21,8 @@ const sequelize = new Sequelize(
     pool:{
       max: 20,
       idle: 3000
-    }
+    },
+    logging: false
   },
 )
 
