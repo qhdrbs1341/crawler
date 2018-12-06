@@ -25,7 +25,7 @@ const startCrawler = async () => {
     auth_pass: process.env.REDIS_PASSWORD,
     port: process.env.REDIS_PORT
   });
-  var linkTotal = await companyCrawlerQueue(['javascript','aws','python','git','react-native','react','node.js','redux','mysql','mongodb']);
+  var linkTotal = await companyCrawlerQueue(['aws','python','react-native','react','node.js','redux','mysql','mongodb']);
   await hireCrawlerQueue(linkTotal);
   await client.flushall((err,succeed)=>{
     if(err){
@@ -65,8 +65,8 @@ await User.findOrCreate({
 }
 
 // insertUser();
-// startCrawler();
-// news();
+startCrawler();
+news();
 app.use((req, res, next) => {
     const err = new Error('Not Found')
     err.status = 404

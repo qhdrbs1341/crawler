@@ -248,6 +248,11 @@ async function hireCrawler(url){
       for(var i=0;i<hireTechArray.length;i++){
         hireTech.push($(hireTechArray[i]).text());
       }
+
+      hireTech = hireTech.filter((item,pos)=>{
+        return hireTech.indexOf(item) == pos;
+      })
+      
       // console.log(`--------------${companyName}----------------`)
       // console.log("채용타이틀: ",hireTitle);
       // console.log("주요업무: ",hireImportantInfo);
