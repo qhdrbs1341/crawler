@@ -48,23 +48,22 @@ cron.schedule('30 1 * * *',()=>{
   news();
 })
 
-// startCrawler();
-// news()
-const insertUser = async ()=>{
-await User.findOrCreate({
-  where:{
-  snsId: 'test',
-  email: 'test@gmail.com',
-  nick: 'testUser',
-  profile: 'asdfasdf',
-  blog: 'test@blog.com',
-  github: 'test@github.com',
-  phone: '010-0000-0000',
-  provider: 'kakao',
-  photo: 'dsfisgfdg'
-  }
-})
-}
+
+// const insertUser = async ()=>{
+// await User.findOrCreate({
+//   where:{
+//   snsId: 'test',
+//   email: 'test@gmail.com',
+//   nick: 'testUser',
+//   profile: 'asdfasdf',
+//   blog: 'test@blog.com',
+//   github: 'test@github.com',
+//   phone: '010-0000-0000',
+//   provider: 'kakao',
+//   photo: 'dsfisgfdg'
+//   }
+// })
+// }
 
 // insertUser();
 startCrawler();
