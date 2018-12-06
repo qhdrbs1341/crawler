@@ -6,7 +6,7 @@ require('dotenv').config();
 const app = express();
 const util = require('util');
 const {sequelize} = require('./models/index');
-const {User} = require('./models/index');
+const {User,} = require('./models/index');
 const cron = require('node-cron');
 const {news} = require('./news');
 const {companyCrawlerQueue, hireCrawlerQueue} = require('./crawler');
@@ -25,7 +25,7 @@ const startCrawler = async () => {
     auth_pass: process.env.REDIS_PASSWORD,
     port: process.env.REDIS_PORT
   });
-  const linkTotal = await companyCrawlerQueue(['node js']);
+  const linkTotal = await companyCrawlerQueue(['Node.js','Amazone AWS','Python','React.js','Redux','MySQl','Javascript','CSS3','Bootstrap','Git','Redis','jQuery','MongoDB','HTML5','es6','react-native','Swift','WebSocket','Sass','django']);
   await hireCrawlerQueue(linkTotal);
   await client.flushall((err,succeed)=>{
     if(err){
