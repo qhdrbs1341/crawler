@@ -22,11 +22,13 @@ const companyCrawlerQueue = async (array) => {
       linkTotal.push(linkArray[index]);
     }
     
+    if(count>1){
     for(var j=2; j<count+1;j++){
       var {linkArray} = await companyCrawler(array[i], j);
       for(var index in linkArray){
         linkTotal.push(linkArray[index]);
       }
+    }
     }
   }
   return Promise.resolve(linkTotal);
@@ -41,7 +43,7 @@ async function companyCrawler(keyword,pageNum){
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto('https://www.rocketpunch.com/jobs?keywords='+keyword+'&page='+pageNum);
-  await timeout(10000);
+  await timeout(6000);
   //await page.screenshot({path: 'example.png'});
   const html = await page.content();
   const $ = await cheerio.load(html);
@@ -78,8 +80,12 @@ async function companyCrawler(keyword,pageNum){
     cleanCategory = cleanCategory.replace(/\n/g,"");
     cleanCategory = cleanCategory.split("∙");
 
-    const category = cleanCategory.map(data => {
+    var category = cleanCategory.map(data => {
       return data.replace(/ /gi,"");
+    });
+
+    category = category.filter((item,pos)=>{
+      return category.indexOf(item) == pos;
     })
     companyCategoryArray.push(category);
   }
@@ -121,7 +127,7 @@ async function companyCrawler(keyword,pageNum){
   })
 
   for(var i=0;i<companyNameArray.length; i++){
-    const exCompany = await Company.find({where: {brand: companyNameArray[i], provider: 'rocketpunch'}});
+    const exCompany = await Company.findOne({where: {brand: companyNameArray[i], provider: 'rocketpunch'}});
     if(!exCompany){ // 기업이 없는 경우 생성
     const company = await Company.create({
       brand: companyNameArray[i],
@@ -131,7 +137,7 @@ async function companyCrawler(keyword,pageNum){
       status: 'new',
       provider: 'rocketpunch'
     })
-  
+    
     const result = await Promise.all(
       companyCategoryArray[i].map(category => 
         Category.findOrCreate({
@@ -139,7 +145,8 @@ async function companyCrawler(keyword,pageNum){
         })
       )
     )
-   
+
+  
     await company.addCategories(result.map(r => r[0]));
   
     }else{ // 기업이 있는 경우 업데이트
@@ -160,15 +167,15 @@ async function companyCrawler(keyword,pageNum){
         )
       )
     
-      const updatedCompany = await Company.find({where: {brand: companyNameArray[i], provider: 'rocketpunch'}});
+      const updatedCompany = await Company.findOne({where: {brand: companyNameArray[i], provider: 'rocketpunch'}});
       //관계 수정
+     
       await updatedCompany.setCategories(result.map(r => r[0]));
     }
   }
   
   const count = parseInt($(pageNumArray[pageNumArray.length-1]).text());
   await browser.close();
-
   await Company.removeHook('beforeUpdate','companyCrawler')
   return {linkArray, count};
 }catch(err){
@@ -180,7 +187,6 @@ async function companyCrawler(keyword,pageNum){
 //채용 크롤러
 async function hireCrawler(url){
 
-  let validHire = [];
   //Hire Hook 생성
   await Hire.addHook('beforeUpdate','hireCrawler',(hire,options)=>{
     const oldHire = hire._previousDataValues;
@@ -199,7 +205,7 @@ async function hireCrawler(url){
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(url);
-    await timeout(6000);
+    await timeout(4000);
     //await page.screenshot({path: 'example.png'});
     const html = await page.content();
     const $ = await cheerio.load(html);
@@ -253,7 +259,7 @@ async function hireCrawler(url){
       // console.log("마감일: ",deadLine);
       // console.log("요구기술스택: ",hireTech);
       console.log(companyName);
-      const company = await Company.find({where: {brand: companyName, provider: 'rocketpunch'}});
+      const company = await Company.findOne({where: {brand: companyName, provider: 'rocketpunch'}});
       
       const exHire = await company.getHires({where : {title: hireTitle, provider: 'rocketpunch'}});
       
@@ -273,7 +279,7 @@ async function hireCrawler(url){
         })
         
         const result = await Promise.all(
-          hireTech.map(tech => 
+          hireTech.map(async tech =>
             HireTech.findOrCreate({
               where: { title: tech }
             })
@@ -325,11 +331,6 @@ const hireCrawlerQueue = async (array) => {
     await Hire.addHook('afterFind','hireCrawler',(array,options)=>{
       for(var i=0; i< array.length; i++){
         const today = new Date();
-        console.log("오늘날짜(월): ",today.getMonth()+1);
-        console.log("오늘날짜(일): ",today.getDate());
-        console.log(today);
-        console.log(array[i].dataValues.updatedAt);
-        console.log(array[i].dataValues.deadLine);
         
         if(array[i].dataValues.provider === 'rocketpunch'){
         const btMsUpdate = today.getTime() - array[i].dataValues.updatedAt.getTime();
