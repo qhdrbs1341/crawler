@@ -25,7 +25,7 @@ const startCrawler = async () => {
     auth_pass: process.env.REDIS_PASSWORD,
     port: process.env.REDIS_PORT
   });
-  var linkTotal = await companyCrawlerQueue(['aws','python','react-native','react','node.js','redux','mysql','mongodb']);
+  var linkTotal = await companyCrawlerQueue(['react-native','react','node.js','mysql','mongodb']);
   await hireCrawlerQueue(linkTotal);
   await client.flushall((err,succeed)=>{
     if(err){
