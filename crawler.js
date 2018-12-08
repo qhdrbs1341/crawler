@@ -43,7 +43,7 @@ async function companyCrawler(keyword,pageNum){
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto('https://www.rocketpunch.com/jobs?keywords='+keyword+'&page='+pageNum);
-  await timeout(8000);
+  await timeout(10000);
   //await page.screenshot({path: 'example.png'});
   const html = await page.content();
   const $ = await cheerio.load(html);
@@ -205,7 +205,7 @@ async function hireCrawler(url){
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(url);
-    await timeout(6000);
+    await timeout(8000);
     //await page.screenshot({path: 'example.png'});
     const html = await page.content();
     const $ = await cheerio.load(html);

@@ -18,14 +18,14 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 const redis = require('redis');
-const startCrawler = async () => {
+const startCrawler = async (keywordArray) => {
   const client = await redis.createClient({
     host: process.env.REDIS_HOST,
     no_ready_check: true,
     auth_pass: process.env.REDIS_PASSWORD,
     port: process.env.REDIS_PORT
   });
-  var linkTotal = await companyCrawlerQueue(['react','node.js','mysql']);
+  var linkTotal = await companyCrawlerQueue(keywordArray);
   await hireCrawlerQueue(linkTotal);
   await client.flushall((err,succeed)=>{
     if(err){
@@ -33,18 +33,22 @@ const startCrawler = async () => {
     }else{
     console.log("-------------------------")
     console.log("------redis flushed------")
-    console.log("flushed redis!!")
+    console.log("-------------------------")
     }
   });
 }
 
 //startCrawler();
 
-cron.schedule('0 18 * * *',()=>{
-  startCrawler();
+cron.schedule('0 13 * * *',()=>{
+  startCrawler(['node.js','react']);
 })
 
-cron.schedule('0 21 * * *',()=>{
+cron.schedule('0 18 * * *',()=>{
+  startCrawler(['redux','css']);
+})
+
+cron.schedule('0 22 * * *',()=>{
   news();
 })
 
@@ -65,8 +69,8 @@ await User.findOrCreate({
 }
 
 // insertUser();
-startCrawler();
-news();
+// startCrawler();
+// news();
 app.use((req, res, next) => {
     const err = new Error('Not Found')
     err.status = 404
